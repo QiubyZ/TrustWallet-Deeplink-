@@ -1,11 +1,11 @@
 from subprocess import Popen, PIPE, STDOUT
 class TrustWallet(Popen):
-    def __init__(self):
+    def __init__(self, **kwargs):
         self.stdout = PIPE
         self.stderr = STDOUT
         self.__url_deep_link = "https://link.trustwallet.com/"
-        self.__coin_id = None
-        self.__contracaddress = None
+        self.__coin_id = kwargs.get("coin_id")
+        self.__contracaddress = kwargs.get("contractaddress")
 
     def setCoin_id(self, x):
         self.__coin_id = x
