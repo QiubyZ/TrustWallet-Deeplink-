@@ -6,7 +6,13 @@ class TrustWallet(Popen):
         self.__url_deep_link = "https://link.trustwallet.com/"
         self.__coin_id = kwargs.get("coin_id") or 20000714
         self.__contracaddress = kwargs.get("contractaddress")
-
+    
+    def getCoin_id(self):
+        return self.__coin_id
+    
+    def getContractAddress(self, x):
+        return self.__contracaddress
+    
     def setCoin_id(self, x):
         self.__coin_id = x
 
