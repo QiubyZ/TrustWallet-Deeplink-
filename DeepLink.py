@@ -4,7 +4,7 @@ class TrustWallet(Popen):
         self.stdout = PIPE
         self.stderr = STDOUT
         self.__url_deep_link = "https://link.trustwallet.com/"
-        self.__coin_id = kwargs.get("coin_id")
+        self.__coin_id = kwargs.get("coin_id") or 20000714
         self.__contracaddress = kwargs.get("contractaddress")
 
     def setCoin_id(self, x):
