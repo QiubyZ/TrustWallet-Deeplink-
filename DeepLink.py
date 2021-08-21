@@ -1,4 +1,4 @@
-#!/usr/bin/env
+
 from subprocess import  Popen, PIPE, STDOUT
 
 class Terminal(Popen):
@@ -9,13 +9,14 @@ class Terminal(Popen):
 			stderr=STDOUT,
 			stdout=PIPE
 		)
+		self.communicate()
 		
 class TrustWallet(object):
     def __init__(self, **kwargs):
-        self.__url_deep_link = "https://link.tw.co/"
+        self.__url_deep_link = "https://link.trustwallet.com/"
         self.__coin_id = kwargs.get("coin_id") or 20000714
         self.__contracaddress = kwargs.get("contractaddress")
-        self.exec = Terminal
+        self.package = "com.wallet.crypto.trustapp"       
         
     def getCoin_id(self):
         return self.__coin_id
@@ -30,16 +31,19 @@ class TrustWallet(object):
         self.__coin_id = x
 
     def __exec(self, deeplink):
-        return self.exec(f"am start -a android.intent.action.VIEW -d {deeplink} com.wallet.crypto.trustapp").communicate()
+        return Terminal(f"am start -a android.intent.action.VIEW -d {repr(deeplink)}")
         
-    def openBrowser(self, url):
-        self.__exec(f"{self.__url_deep_link}open_url?coin_id={self.__coin_id}&url={url}")
+    def openBrowser(self, dapps):
+        return self.__exec(f"{self.__url_deep_link}open_url?coin_id={self.__coin_id}&url={dapps}")
 
     def openCoin(self):
         return self.__exec(f"{self.__url_deep_link}open_coin?asset={self.__coin_id}")
 
     def addAsset(self):
-        self.__exec(f"{self.__url_deep_link}add_asset?asset={self.__coin_id}_t{self.__contracaddress}")
+        return self.__exec(f"{self.__url_deep_link}add_asset?asset=c{self.__coin_id}_t{self.__contracaddress}")
 
-#deep = TrustWallet(contractaddress="0x5a726a26edb0df8fd55f03cc30af8a7cea81e78d")
-#print(deep.openCoin())
+
+deep = TrustWallet(contractaddress="0xba2ae424d960c26247dd6c32edc70b295c744c43")
+print(deep.openBrowser("https://goolo"))
+#deep.addAsset()
+#deep.openCoin()
